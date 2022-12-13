@@ -6,7 +6,7 @@
           <v-row>
             <v-col cols="2">
               <v-sheet rounded="lg">
-                <cabugy-menu />
+                <cabugy-menu-boardusuario />
               </v-sheet>
             </v-col>
   
@@ -163,7 +163,6 @@ extend("confirmed", {
         },
       async mounted () {
       if(localStorage.getItem('auth._token.local') == 'false'){
-        console.log(typeof(localStorage.getItem('auth._token.local')))
       }else{
         let response = await this.$axios.get('users/me')
         if(response && response.data){
@@ -174,7 +173,6 @@ extend("confirmed", {
             this.email = me.email
             this.celular = me.celular
         }
-        console.log(this.perfil)
       }
     },
       data: () => ({
@@ -203,8 +201,8 @@ extend("confirmed", {
         eemail: true,
         editar: true
       }),
-    methods: {
-        async submit () {
+methods: {
+  async submit () {
     this.$refs.observer.validate()
       try {
             let responsemeid = await this.$axios.get('users/me')
@@ -218,9 +216,8 @@ extend("confirmed", {
             celular: this.celular,
             nombres: this.nombres,
             apellidos: this.apellidos
-      })
+          })
         if(response && response.data){
-            console.log(response),
             this.rexito = true,
             setTimeout( () => this.$router.go({ path: '/infobasica'}), 3000);                     
         }
@@ -235,7 +232,6 @@ extend("confirmed", {
             this.merror= 'Ocurrio un error.'
             setTimeout( () => this.rerror = false, 3000);
         }
-        console.log(error.response.data.error.message);
       };
     },
 

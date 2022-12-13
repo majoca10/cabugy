@@ -6,7 +6,7 @@
           <v-row>
             <v-col cols="2">
               <v-sheet rounded="lg">
-                <cabugy-menu />
+                <cabugy-menu-boardusuario />
               </v-sheet>
             </v-col>
   
@@ -285,7 +285,7 @@
                                 multiple
                                 prepend-icon="mdi-paperclip"
                                 type="file"
-                                @change="selectuploadperfil"
+                                @change="selectuploadj"
                               >
                             </template>
                           </v-col>
@@ -299,6 +299,30 @@
                               <strong>{{ Math.ceil(valueloader) }}%</strong>
                             </v-progress-linear>
                           </v-col>
+                          <div>
+                            <v-simple-table
+                              :dense="dense"
+                              :fixed-header="fixedHeader"
+                              :height="height"
+                              :loading="loading"
+                            >
+                              <template v-slot:default>
+                                <thead>
+                                  <tr>
+                                    <th class="text-left">Archivos</th>
+                                    <th class="text-left">Accion</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr v-for="(i, idp) in adjunto" :key="idp">
+                                    <td>{{ i.name }}</td>
+                                    <td><v-btn class="info" target="_blank" :href="'https://api.cabugy.com'+ i.url">Ver</v-btn></td>
+                                    <td><v-btn class="error" @click="eliminaradj(idp)">Eliminar</v-btn></td>
+                                  </tr>
+                                </tbody>
+                              </template>
+                            </v-simple-table>
+                          </div>
                           <v-col cols="12">
                             <validation-provider
                             v-slot="{ errors }"
@@ -385,7 +409,6 @@ extend("confirmed", {
       async mounted () {
         this.comision = '6'
       if(localStorage.getItem('auth._token.local') == 'false'){
-        console.log(typeof(localStorage.getItem('auth._token.local')))
       }else{
         const metoken =  window.localStorage.getItem('auth._token.local')
         this.$axios.defaults.headers.common['Authorization'] = metoken
@@ -429,10 +452,15 @@ extend("confirmed", {
         files: [],
         adj: false,
         valueloader: 0,
-        verloader: false
+        verloader: false,
+        fixedHeader: false,
+        dense: false,
+        height:'',
+        adjunto: [],
+        loading: false,
       }),
     methods: {
-      async selectuploadperfil(event){
+      async selectuploadj(event){
 
             const formdata = new FormData();
             Array.from(event.target.files).forEach(image => {
@@ -442,17 +470,17 @@ extend("confirmed", {
                 const metoken =  window.localStorage.getItem('auth._token.local')
                 let imgproductos = await this.$axios.post('upload/', formdata, {
                     onUploadProgress: progressEvent => {
-                    console.log('subida de archivo producto', parseInt(Math.round((progressEvent.loaded / progressEvent.total)* 100)), '%')
                     const responseproducto = parseInt(Math.round((progressEvent.loaded / progressEvent.total)* 100))
                     this.responseproducto = responseproducto
-                    console.log(responseproducto)
                     this.verloader = true
                     this.valueloader = responseproducto
                     }
                 })
                 if(imgproductos){
-                  console.log(imgproductos.data)
                   this.imgproductos = imgproductos.data
+                  for (let index = 0; index < this.imgproductos.length; index++) {
+                  this.adjunto.push(this.imgproductos[index])
+              }
                 }
             }
             //delete this.$axios.defaults.headers.common["Authorization"];
@@ -480,10 +508,9 @@ extend("confirmed", {
             pcomision: this.tcomision.toString(),
             fisico: this.fisico,
             digital: this.digital,
-            adjunto: this.imgproductos
+            adjunto: this.imgproductos || []
       })
         if(response && response.data){
-            console.log(response),
             this.rexito = true,
             setTimeout( () => this.$router.push({ path: '/artista'}), 3000);                     
         }
@@ -498,18 +525,20 @@ extend("confirmed", {
             this.merror= 'Ocurrio un error.'
             setTimeout( () => this.rerror = false, 3000);
         }
-        console.log(error.response.data.error.message);
       };
     },
 
-        go : (route)=>{
-                    window.location.href = route
-                },
+    eliminaradj(item){
+        this.$delete(this.adjunto, item)
+      },
+
+    go : (route)=>{
+        window.location.href = route
+      },
     calcular(cantidad, punitario, comision) {
         this.total = cantidad * punitario
         this.tcomision = (cantidad * punitario) * (comision/100)
         this.rtotal = this.total - this.tcomision
-        console.log(cantidad, punitario, comision)
       },
     }
     }

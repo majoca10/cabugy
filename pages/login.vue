@@ -123,6 +123,11 @@ extend('email', {
 })
 export default {
   auth : false,
+  async mounted () {
+    if(localStorage.getItem('auth._token.local') !== 'false'){
+      this.$router.push('/boardusuario')
+    }
+  },
   components: {
     ValidationProvider,
     ValidationObserver,
@@ -151,12 +156,10 @@ export default {
             })
 
             if(response && response.data){
-            console.log(response),
             this.iexito = true,
             setTimeout( () => this.$router.push({ path: '/boardusuario'}), 3000);                     
         }
           } catch (e) {
-            console.log(e.response.data.message[0].messages[0].message)
             if (e.response.data.message[0].messages[0].message == 'Identifier or password invalid.') {
                 this.ierror = true
                 this.merror= 'E-mail o Contraseña invalidos.'

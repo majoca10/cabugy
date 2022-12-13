@@ -4,14 +4,14 @@
       <v-main class="grey lighten-3">
         <v-container>
           <v-row>
-              <cabugy-menu />
+              <cabugy-menu-boardusuario />
             <v-col>
               <v-sheet
                 min-height="70vh"
                 rounded="lg"
               >
               <v-container>
-                <cabugy-misproductos-artista />
+                    <cabugy-misproductos-artista />
               </v-container>
               </v-sheet>
             </v-col>
@@ -23,10 +23,9 @@
 </template>
   
   <script>
-  import cabugyHeader from '~/components/cabugy-header.vue'
+
     export default {
       auth: true,
-    components: { cabugyHeader },
       data: () => ({
       }),
     }

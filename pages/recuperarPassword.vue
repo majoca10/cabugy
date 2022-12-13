@@ -119,7 +119,6 @@ export default {
   }),
   methods: {
    async submit () {
-    alert('entra')
 
           try {
             let response = await this.$axios.post('/api/auth/forgot-password', {
@@ -129,7 +128,6 @@ export default {
             })
 
             if(response && response.data){
-            console.log(response),
             this.iexito = true,
             setTimeout( () => this.$router.push({ path: '/login'}), 3000);                     
         }

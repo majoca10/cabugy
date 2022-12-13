@@ -4,7 +4,7 @@
         <v-main class="grey lighten-3">
           <v-container>
             <v-row>
-                <cabugy-menu />
+                <cabugy-menu-boardusuario />
               <v-col>
                 <v-sheet
                   min-height="70vh"
@@ -62,6 +62,8 @@
   
   <script>
   import cabugyHeader from '~/components/cabugy-header.vue'
+import CabugyMenuBoardusuario from '~/components/cabugy-menu-boardusuario.vue'
+import CabugyMenuIndex from '~/components/cabugy-menu-index.vue'
     export default {
       auth: true,
       async mounted () {
@@ -71,7 +73,7 @@
         }
       },
 
-    components: { cabugyHeader },
+    components: { cabugyHeader, CabugyMenuIndex, CabugyMenuBoardusuario },
       data: () => ({
         artistas:[]
       }),

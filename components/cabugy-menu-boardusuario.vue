@@ -28,6 +28,7 @@
                     </v-list-item-content>
                   </v-list-item>
                   <v-list-group
+                    v-show="vende"
                   >
                     <template v-slot:activator>
                       <v-list-item-content>
@@ -84,55 +85,18 @@
       auth : true,
       async mounted () {
       if(localStorage.getItem('auth._token.local') == 'false'){
-        console.log(typeof(localStorage.getItem('auth._token.local')))
       }else{
         let response = await this.$axios.get('users/me')
         if(response && response.data){
             let me = response.data
-            this.avatar = me.nombres.charAt(0).toUpperCase()
-            this.nombres = me.nombres
-            this.apellidos = me.apellidos
-            this.email = me.email
-            this.celular = me.celular
-            this.perfil = me.imgperfil.url
-            this.portada = me.imgportada.url
-            this.ratinc = 4.4
-            this.ratinv = 5
-            this.confirmed = me.confirmed
-            this.sms = me.sms
-            this.biometrica = me.biometrica
             this.compra = me.compra
             this.vende = me.vende
         }
-        console.log(this.perfil)
       }
     },
       data: () => ({
-        avatar: '',
-        nombres: '',
-        apellidos: '',
-        email: '',
-        celular: '',
-        perfil:'',
-        portada:'',
-        verimgperfil: false,
-        veravatar: false,
-        imgperfil: '',
-        imgportada:'',
-        compra: true,
+        compra: false,
         vende: false,
-        sms: false,
-        biometrica: false,
-        confirmed: true,
-        ratinc: 0,
-        ratinv: 0,
-        compra: true,
-        vende: false,
-        admins: [
-        ['Management', 'mdi-account-multiple-outline'],
-        ['Settings', 'mdi-cog-outline'],
-      ],
-
       }),
     methods: {
 

@@ -151,7 +151,6 @@ methods: {
           password: this.password,
     })
       if(response && response.data){
-          console.log(response),
           this.rexito = true,
           this.salir()                    
       }
@@ -167,7 +166,6 @@ methods: {
           this.merror= 'Ocurrio un error.'
           setTimeout( () => this.rerror = false, 3000);
       }
-      console.log(error.response.data.error.message);
     };
   },
   

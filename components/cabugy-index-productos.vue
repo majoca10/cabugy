@@ -68,8 +68,34 @@ rounded="lg"
 export default {
     auth: false,
     data: () => ({
-
+        indexpro: [],
+        pro : false,
+        nopro: false
     }),
+
+    methods:{
+        async listpro(id) {
+            const qs = require("qs");
+                    const query = qs.stringify(
+                        {
+                            artistas : id,
+                            estados: "Activo"
+                        }
+                    )
+            let responsepro = await this.$axios.get(`productos?${query}`)
+                if(responsepro.data.length == 0)
+                        
+                    {
+                        this.nopro = true
+                        this.pro = false
+                        this.testver = true
+                    }else{
+                            this.nopro = false
+                            this.pro = true
+                            this.indexpro = responsepro.data
+                    }
+        }
+    }
 
 }
 </script>

@@ -121,7 +121,6 @@ import { mapGetters } from "vuex";
     async mounted () {
 
       if(localStorage.getItem('auth._token.local') == 'false'){
-        console.log(typeof(localStorage.getItem('auth._token.local')))
         this.bmenu = false
       }else{
         try {
@@ -135,7 +134,6 @@ import { mapGetters } from "vuex";
                 this.email = me.email
             }
       } catch (e) {
-        console.log(e.response.data.message)
         if(e.response.data.message == "Invalid token." ){
           localStorage.setItem('auth._token.local', 'false') 
         }

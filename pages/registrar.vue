@@ -199,6 +199,11 @@ extend("confirmed", {
 });
 export default {
   auth : false,
+  async mounted () {
+    if(localStorage.getItem('auth._token.local') !== 'false'){
+      this.$router.push('/boardusuario')
+    }
+  },
   components: {
     ValidationProvider,
     ValidationObserver,
@@ -234,7 +239,6 @@ export default {
           imgportada: { url:false },
       })
         if(response && response.data){
-            console.log(response),
             this.rexito = true,
             setTimeout( () => this.$router.push({ path: '/login'}), 3000);                     
         }
@@ -249,7 +253,6 @@ export default {
             this.merror= 'Ocurrio un error.'
             setTimeout( () => this.rerror = false, 3000);
         }
-        console.log(error.response.data.error.message);
       };
     },
     

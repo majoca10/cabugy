@@ -59,36 +59,8 @@
       model:'',
       artistas:[],
       testver : false,
-      indexpro: [],
-      pro : false,
-      nopro: false
+
     }),
-    methods:{
-        async listpro(id) {
-            const qs = require("qs");
-                    const query = qs.stringify(
-                        {
-                            artistas : id,
-                            estados: "Activo"
-                        }
-                    )
-            let responsepro = await this.$axios.get(`productos?${query}`)
-                if(responsepro.data.length == 0)
-                        
-                    {
-                        alert("entra")
-                        this.nopro = true
-                        this.pro = false
-                        this.testver = true
-                        console.log(this.nopro, this.pro)
-                    }else{
-                            this.nopro = false
-                            this.pro = true
-                            this.indexpro = responsepro.data
-                            console.log(this.indexpro)
-                    }
-                    console.log(this.testver)
-        }
-    }
+
   }
 </script>

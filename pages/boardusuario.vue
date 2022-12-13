@@ -6,7 +6,7 @@
           <v-row>
             <v-col cols="2">
               <v-sheet rounded="lg">
-                <cabugy-menu />
+                <cabugy-menu-boardusuario />
               </v-sheet>
             </v-col>
   
@@ -121,11 +121,12 @@
   </template>
   
   <script>
+import cabugyMenuBoardusuario from '~/components/cabugy-menu-boardusuario.vue'
     export default {
+  components: { cabugyMenuBoardusuario },
       auth : true,
       async mounted () {
       if(localStorage.getItem('auth._token.local') == 'false'){
-        console.log(typeof(localStorage.getItem('auth._token.local')))
       }else{
         let response = await this.$axios.get('users/me')
         if(response && response.data){
@@ -145,7 +146,6 @@
             this.compra = me.compra
             this.vende = me.vende
         }
-        console.log(this.perfil)
       }
     },
       data: () => ({
@@ -178,7 +178,6 @@
             if(formdata){
                 let responseperfil = await this.$axios.post('upload/', formdata, {
                     onUploadProgress: progressEvent => {
-                    console.log('subida de archivo perfil', parseInt(Math.round((progressEvent.loaded / progressEvent.total)* 100)), '%')
                     const responseperfil = parseInt(Math.round((progressEvent.loaded / progressEvent.total)* 100))
                     this.responseperfil = responseperfil
                     }
@@ -191,14 +190,11 @@
         async actimgperfil(){
           const metoken =  window.localStorage.getItem('auth._token.local')
           this.$axios.defaults.headers.common['Authorization'] = metoken
-                console.log(metoken)
-          alert('check')
             try {
                 let response = await this.$axios.get('users/me')
                 let meid = response.data.id
                 const metoken =  window.localStorage.getItem('auth._token.local')
                 this.$axios.defaults.headers.common['Authorization'] = metoken
-                console.log(metoken)
                 let res = await this.$axios.put("users/" + meid, {
                     imgperfil: this.imgperfil
                 });
