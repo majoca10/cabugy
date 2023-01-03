@@ -21,17 +21,27 @@
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn
-          v-if="!isAuthenticated"
+          v-if= "!isAuthenticated"
           to="/login"
           text
           >Ingresar</v-btn
         >
         <v-btn
-          v-if="!isAuthenticated"
+          v-if= "!isAuthenticated"
           to="/registrar"
           text
           >Registrar</v-btn
         >
+        <v-btn
+          class="info"
+          to="/cart"
+        >
+        <v-img style="max-width: 20px; margin-left: .5em" src="https://api.cabugy.com/uploads/cart_dd4562b8b4.svg" alt="Cart Icon"></v-img>
+          Cart
+          <span class="btn-circle">
+            {{ $store.state.cart.length }}
+          </span>
+        </v-btn>
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
@@ -114,8 +124,9 @@
     </v-app-bar>
 </template>
 <script>
-import { mapGetters } from "vuex";
+  import {mapGetters} from 'vuex';
   export default {
+    computed: mapGetters(["cartItemCount", "isAuthenticated"]),
     auth : false,
 
     async mounted () {
@@ -126,6 +137,7 @@ import { mapGetters } from "vuex";
         try {
           let response = await this.$axios.get('users/me')
             if(response && response.data){
+                console.log(response.data)
                 let me = response.data
                 this.bmenu = true
                 this.avatar = me.nombres.charAt(0).toUpperCase()
@@ -146,7 +158,8 @@ import { mapGetters } from "vuex";
     data: () => ({
       links: [
         {name:'Cabugy', page:''},
-        {name:'Acerca de Nosotros', page:'abaout'}
+        {name:'Acerca de Nosotros', page:'abaout'},
+        {name:'Carrito', page:'cart'}
       ],
       fav: true,
       menu: false,
@@ -160,19 +173,30 @@ import { mapGetters } from "vuex";
       nombres: '',
       apellidos: '',
       email: '',
-      bmenu: false
+      bmenu: false,
     }),
-    computed: {
-        ...mapGetters(['isAuthenticated']),
-        ...mapGetters(['loggedInUser']),
-      },
      
       methods: {
         async salir() {
           await this.$auth.logout()
           this.menu = false
           this.bmenu = false
-        }
+        },
   }
 }
 </script>
+<style>
+  .btn-circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    position: absolute;
+    top: -15px;
+    right: -30px;
+    background-color: #686868;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

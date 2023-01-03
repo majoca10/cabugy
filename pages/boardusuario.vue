@@ -53,7 +53,7 @@
                                             <v-icon>mdi-plus</v-icon>
                                             </v-btn>
                                         </v-fab-transition>
-                                        </template>
+                                    </template>
                                         <input
                                             style="display:none;"
                                             ref="imgperfil" 
