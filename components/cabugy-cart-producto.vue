@@ -1,3 +1,4 @@
+
 <template>
     <div>
       <v-card class="box d-flex justify-space-around align-center ma-4">
@@ -21,6 +22,7 @@
         </span>
     
         <h3 class="mx-2">{{countity}}</h3>
+        <h3 class="mx-2">hola</h3>
     
         <span>
         <v-btn
