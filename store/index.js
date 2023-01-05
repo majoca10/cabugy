@@ -21,11 +21,11 @@ export const getters = {
 }
 
 export const state = () => ({
-    products:[],
-    cart:[],
-  });
+  products:[],
+  cart:[],
+});
   
-  export const mutations = {
+export const mutations = {
     setproducts: (state, products) => (state.products = products),
     
 
@@ -39,8 +39,8 @@ export const state = () => ({
         
       }else{
       state.cart.push(product)
-      console.log(product)
-      localStorage.setItem('product', JSON.stringify(product));
+      console.log('product', product)
+      window.localStorage.setItem('product', JSON.stringify(product));
       }
     },
 

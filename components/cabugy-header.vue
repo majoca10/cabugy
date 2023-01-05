@@ -33,6 +33,18 @@
           >Registrar</v-btn
         >
         <v-btn
+          v-show= this.noticart
+          class="info"
+          to="/cart"
+        >
+        <v-img style="max-width: 20px; margin-left: .5em" src="https://api.cabugy.com/uploads/cart_dd4562b8b4.svg" alt="Cart Icon"></v-img>
+          Cart
+          <span class="btn-circle">
+            {{ this.cartlength }}
+          </span>
+        </v-btn>
+        <v-btn
+          v-show= this.noticart2
           class="info"
           to="/cart"
         >
@@ -144,6 +156,17 @@
                 this.nombres = me.nombres
                 this.apellidos = me.apellidos
                 this.email = me.email
+                if(window.localStorage.getItem('product') != null){
+                  console.log('entra header if')
+                  this.noticart2 = false
+                  this.noticart = true
+                  this.cartlength = 1
+                }else{
+                  console.log('entra header else')
+                  window.localStorage.setItem('product', null);
+                  this.noticart2 = true
+                  this.cartlength = 0
+                }
             }
       } catch (e) {
         if(e.response.data.message == "Invalid token." ){
@@ -174,6 +197,9 @@
       apellidos: '',
       email: '',
       bmenu: false,
+      cartlength: 0,
+      noticart: false,
+      noticart2: false
     }),
      
       methods: {
