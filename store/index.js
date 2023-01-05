@@ -35,12 +35,12 @@ export const mutations = {
         return item.id === product.id});
 
       if(productInCart){
-        productInCart.cantidad++
+        productInCart.cantidad
         
       }else{
       state.cart.push(product)
-      console.log('product', product)
-      window.localStorage.setItem('product', JSON.stringify(product));
+        console.log('product', product)
+        window.localStorage.setItem('product', JSON.stringify(product));
       }
     },
 

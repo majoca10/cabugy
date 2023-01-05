@@ -4,13 +4,17 @@
       color="white"
       flat
     >
-      <v-container class="py-0 fill-height">
-        <v-avatar
-          class="mr-10"
-          color="grey darken-1"
-          size="32"
-        > C </v-avatar>
 
+      <v-col class="col-2" style="padding:2px; padding: 2px; position: relative; right: -170px;">
+        <img
+        src="../assets/images/logo2.png"
+        img-alt="Image"
+        alt="user"
+        height="64px"
+        >
+      </v-col>
+
+      <v-container class="py-0 fill-height">
         <v-btn
           v-for="(link, idx) in links"
           :key="idx"
@@ -44,7 +48,7 @@
           </span>
         </v-btn>
         <v-btn
-          v-show= this.noticart2
+          v-show= "$store.state.cart.length >= 1  && this.noticart2"
           class="info"
           to="/cart"
         >
@@ -156,7 +160,7 @@
                 this.nombres = me.nombres
                 this.apellidos = me.apellidos
                 this.email = me.email
-                if(window.localStorage.getItem('product') != null){
+                if(window.localStorage.getItem('product') != 'null'){
                   console.log('entra header if')
                   this.noticart2 = false
                   this.noticart = true
@@ -165,6 +169,7 @@
                   console.log('entra header else')
                   window.localStorage.setItem('product', null);
                   this.noticart2 = true
+                  this.noticart = false
                   this.cartlength = 0
                 }
             }

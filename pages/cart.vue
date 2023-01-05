@@ -18,13 +18,13 @@
                         <v-col class="d-flex justify-center">
                         <v-col class="mt-14">
                         <v-row>
-                            <v-col>    
+                            <v-col class="col-12">    
                             <v-card
                                 white
                             >
-                                <div class="d-flex">
+                                <v-col class="d-flex col-12">
                                 <v-avatar
-                                    class="ma-3"
+                                    class="col-3"
                                     size="125"
                                     tile
                                 >
@@ -33,10 +33,11 @@
                                     >
                                     </v-img>
                                 </v-avatar>
-                                <div>
+                                <v-col class="col-3">
                                     <v-card-title
-                                    class="text-h5"
-                                    v-text="this.nombreart"
+                                        class="text-h5"
+                                        style="padding: 0px;"
+                                        v-text="this.nombreart"
                                     ></v-card-title>
                                     <v-col>
                                         <v-card-subtitle style="padding: 2px;"><v-icon color="green lighten-2">mdi-thumb-up</v-icon> 100% (50 ventas)</v-card-subtitle>
@@ -51,12 +52,30 @@
                                     </v-avatar>
                                     <v-card-subtitle style="padding: 2px;" v-text="this.userpronombre"></v-card-subtitle>
                                     </v-col>
-                                </div>
-                                <div>
+                                </v-col>
+                                <v-col>
+                                <v-col class="col-12">
                                     <v-card-text>
                                     {{this.userprodetalle}}
-                                    </v-card-text></div>
-                                </div>
+                                    </v-card-text>
+                                </v-col>
+                                <v-col class="col-6">
+                                    <v-card-title class="col-12 d-flex" style="padding: 2px;">
+                                        <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-left">Cantidad:</p></v-card-text>
+                                        <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-right">{{this.pro.cantidad}}</p></v-card-text>
+                                    </v-card-title>
+                                </v-col>
+                                </v-col>
+                                </v-col>
+                                <v-card-actions>
+                                <v-btn
+                                    color="red"
+                                    text
+                                    @click="quitarprocart"
+                                >
+                                    Quitar
+                                </v-btn>
+                                </v-card-actions>
                             </v-card>
                         </v-col>
                     </v-row>
@@ -68,54 +87,63 @@
                         <v-card
                             withe
                             min-width="350"
+                            class="col-12"
                         >
-                        <v-card-title >
-                            <h4><span>Precio Unitario:</span><span> ${{decimal()}}</span></h4>
+                        <v-card-title class="col-12 d-flex" style="padding: 2px;">
+                            <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-left">Precio Unitario:</p></v-card-text>
+                            <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-right">$ {{this.userpropreciounitario}}</p></v-card-text>
                         </v-card-title>
-                            <hr class="mx-12">
-                        <v-card-text class="text-h6">
-                            <h4><span>Subtotal:</span><span>${{decimal()}} </span></h4>
-                        </v-card-text>
-                        <hr class="mx-12">
-                        <v-card-text class="text-h6">
-                            <h4><span>Cantidad:</span><span> {{this.userprocantidad}}</span></h4>
-                        </v-card-text>
-                        <v-card-text class="text-h6">
-                            <h4><span>Envio:</span><span> ${{shipping=15000}}</span></h4>
-                        </v-card-text>
-                            <hr class="mx-12">
-                            <div class="d-flex align-center">
-                                <v-btn
-                                class="mx-2"
-                                fab
-                                dark
-                                small
-                                color="primary"
-                                @click="decrementar"
-                                >
-                                <v-icon dark>
-                                    mdi-minus
-                                </v-icon>
-                                </v-btn>
-                                <v-card-text class="text-h6 center" >
-                                    {{ this.userprocantidad }}
-                                </v-card-text>
-                                <v-btn
-                                class="mx-2"
-                                fab
-                                dark
-                                small
-                                color="primary"
-                                @click="incrementar"
-                                >
-                                <v-icon dark>
-                                    mdi-plus
-                                </v-icon>
-                                </v-btn>
-                            </div>
-                        <v-card-text class="text-h6">
-                            <h4><span>Total:</span><span>${{decimal()}}</span></h4>
-                        </v-card-text>
+                        <v-divider inset></v-divider>
+                        <v-col class="d-flex pa-2 justify-space-between"
+                            flat
+                            outlined
+                            tile
+                        >
+                            <v-col class="d-flex">
+                            <v-btn
+                            class="mx-2"
+                            fab
+                            dark
+                            small
+                            color="primary"
+                            :disabled= "userprocantidad <= 1"
+                            @click="decrementar"
+                            >
+                            <v-icon dark>
+                                mdi-minus
+                            </v-icon>
+                            </v-btn>
+                            <input class="centered" disabled v-model="userprocantidad" />
+                            <v-btn
+                            class="mx-2"
+                            fab
+                            dark
+                            small
+                            color="primary"
+                            :disabled= "userprocantidad >= parseInt(this.pro.cantidad)"
+                            @click="incrementar"
+                            >
+                            <v-icon dark>
+                                mdi-plus
+                            </v-icon>
+                            </v-btn>
+                            </v-col>
+                        </v-col>
+                        <v-divider inset></v-divider>
+                        <v-card-title class="col-12 d-flex" style="padding: 2px;">
+                            <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-left">Subtotal:</p></v-card-text>
+                            <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-right">$ {{this.userpropreciounitario}}</p></v-card-text>
+                        </v-card-title>
+                        <v-divider inset></v-divider>
+                        <v-card-title class="col-12 d-flex" style="padding: 2px;">
+                            <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-left">Envio:</p></v-card-text>
+                            <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-right">$ {{ envio }}</p></v-card-text>
+                        </v-card-title>
+                        <v-divider inset></v-divider>
+                        <v-card-title class="col-12 d-flex" style="padding: 2px;">
+                            <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-left">Total:</p></v-card-text>
+                            <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-right">{{rtotal}}</p></v-card-text>
+                        </v-card-title>
                         <v-card-actions>
                             <v-btn
                             color="primary"
@@ -153,7 +181,9 @@ export default {
             this.nocart = false
             this.producto = localStorage.getItem('product')
             this.pro = JSON.parse(this.producto)
-            this.userprocantidad = this.pro.cantidad
+            this.userprocantidad = parseInt(this.pro.cantidad)
+            console.log(typeof(this.userprocantidad), this.userprocantidad )
+            this.userpropreciounitario = this.pro.punitario
             this.artista = this.pro.artistas[0]
             this.imgartista = this.artista.imgartista.url
             this.nombreart = this.artista.nombre
@@ -161,13 +191,8 @@ export default {
             this.userpronombre = this.userpro.nombres
             this.userproimgperfil = this.userpro.imgperfil.url
             this.userprodetalle = this.pro.detalles.detalle
-            console.log(this.pro)
-            console.log(this.imgartista)
-            console.log(this.userpro)
         }else{
             this.nocart = true
-            this.cartlength = 0
-            console.log('error mounted')
         }
 },
     data: () => ({
@@ -180,7 +205,13 @@ export default {
       userprocantidad: 0,
       userproimgperfil:'',
       nocart: false,
-      cartdetalle: false
+      cartdetalle: false,
+      cantidadcompra: 0,
+      userpropreciounitario:'',
+      pro:[],
+      envio: 0,
+      rtotal: 0,
+      total: 0
     }),
     methods:{
         decimal: function(price){
@@ -192,12 +223,41 @@ export default {
         },
         incrementar() {
         this.userprocantidad++
+        console.log(this.userprocantidad)
         },
-        total: function(){
-            return (this.price*this.countity).toFixed(2)
-        }
+
+        quitarprocart() {
+            console.log('para quitar producto carro')
+            window.localStorage.setItem('product', null);
+            setTimeout( () => location.reload(), 300);
+        },
          
     },
+
+    watch: {
+        userprocantidad: function(userprocantidad, oldValue) {
+      this.rtotal = userprocantidad * this.userpropreciounitario;
+      console.log('entra', this.rtotal)
+    }
+    }
 }
 </script>
+<style>
+  .centered {
+    text-align: center;
+  }
 
+  .btn-circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    position: absolute;
+    top: -15px;
+    right: -30px;
+    background-color: #686868;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
