@@ -30,3 +30,8 @@
               </v-sheet>
             </v-col>
 </template>
+<style>
+ #body {
+    font-family: 'Nunito Sans';
+  }
+</style>

@@ -171,7 +171,7 @@
               class="mx-auto"
               tile
               style="cursor:pointer;"
-              @click="$store.commit('addtocart', p)"
+              @click="$store.commit('addtocart', p) & $router.push(`/cart`)"
             >
             <v-col class="d-flex" color="lighten-3">
                 <v-col class="">
@@ -338,7 +338,8 @@
                                 Detalle: {{ p.detalles.detalles }}
                                 <v-divider></v-divider>
                                 <v-btn
-                                  @click="$store.commit('addtocart', p)"
+        
+                                  @click="$store.commit('addtocart', p) && $router.push(`/cart`)"
                                 >
                                 Comprar
                               </v-btn>
@@ -473,6 +474,10 @@ export default {
 
             }
 
+        },
+
+        tocart(){
+          this.$router.push('/cart')
         }
       }
 

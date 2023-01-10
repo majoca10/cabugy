@@ -11,12 +11,21 @@ export default {
     },
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      
+        {
+          hid: `description`,
+          name: 'description',
+          content: 'Compra de forma segura boletos para ver tu artista favorito a revendedores verificados o a fanáticos que no podrán utilizar sus entradas'
+        },
+        {
+          hid: `keywords`,
+          name: 'keywords',
+          keywords: 'Compra de boletos, boletos, artistas, entradas, entradas para conciertos, conciertos en colombia, venta de boletas, ventas, tickets'
+        }
+      
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ]
   },
 
@@ -27,7 +36,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     "~plugins/validate.js",
-    "~plugins/filters.js"
+    "~plugins/filters.js",
+    {src: '~/plugins/clarity.js', mode: 'client'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,15 +49,32 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/google-analytics'
   ],
+
+  googleAnalytics: {
+    id: process.env.GOOGLE_ANALYTICS_ID, // Use as fallback if no runtime config is provided
+  },
+  publicRuntimeConfig: {
+    googleAnalytics: {
+      id: process.env.GOOGLE_ANALYTICS_ID
+    }
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+    'nuxt-smartlook',
+    'nuxtjs-microsoft-clarity',
+
   ],
 
+	smartlook: {
+		id: "c1070cb10b953058b64b9e991840685cb7a1e92f",
+		enabled: process.env.NODE_ENV === 'production',
+	},
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
@@ -69,7 +96,7 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
         }
-      }
+      },
     }
   },
 
@@ -100,6 +127,9 @@ router: {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ["vee-validate/dist/rules"],
+    css: [
+      '@/assets/css/main.css'
+    ]
   },
 
   server: {

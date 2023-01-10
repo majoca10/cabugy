@@ -4,17 +4,19 @@
       color="white"
       flat
     >
-
-      <v-col class="col-2" style="padding:2px; padding: 2px; position: relative; right: -170px;">
+      <v-col class="col-12 d-flex" style="position: static; height: 64px; width: 80%; margin: 0 auto;">
+      <v-col class="col-3" style="height: 64px;padding: 2px; position: relative; top: -16px;" to="/">
         <img
         src="../assets/images/logo2.png"
         img-alt="Image"
         alt="user"
-        height="64px"
+        height="55px"
+        style= "cursor:pointer; margin: 0 auto; height: -webkit-fill-available; display: flow-root;"
+        @click="toinicio"
         >
       </v-col>
 
-      <v-container class="py-0 fill-height">
+        <v-col class="col-6">
         <v-btn
           v-for="(link, idx) in links"
           :key="idx"
@@ -23,21 +25,11 @@
         >
           {{ link.name }}
         </v-btn>
-        <v-spacer></v-spacer>
+        </v-col>
+        <v-col class="col-3">
         <v-btn
-          v-if= "!isAuthenticated"
-          to="/login"
+          v-show= "this.noticart"
           text
-          >Ingresar</v-btn
-        >
-        <v-btn
-          v-if= "!isAuthenticated"
-          to="/registrar"
-          text
-          >Registrar</v-btn
-        >
-        <v-btn
-          v-show= this.noticart
           class="info"
           to="/cart"
         >
@@ -49,6 +41,7 @@
         </v-btn>
         <v-btn
           v-show= "$store.state.cart.length >= 1  && this.noticart2"
+          text
           class="info"
           to="/cart"
         >
@@ -58,6 +51,20 @@
             {{ $store.state.cart.length }}
           </span>
         </v-btn>
+
+        <v-btn
+          v-if= "!isAuthenticated"
+          to="/login"
+          text
+          >Ingresar</v-btn
+        >
+        <v-btn
+          v-if= "!isAuthenticated"
+          to="/registrar"
+          text
+          >Registrar
+        </v-btn
+        >
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
@@ -136,7 +143,8 @@
         </v-card-actions>
       </v-card>
     </v-menu>
-      </v-container>
+    </v-col>
+    </v-col>
     </v-app-bar>
 </template>
 <script>
@@ -149,6 +157,20 @@
 
       if(localStorage.getItem('auth._token.local') == 'false'){
         this.bmenu = false
+        this.noticart2 = true
+        this.noticart = false
+                        if(localStorage.getItem('product') != 'null'){
+                  console.log('entra header if')
+                  this.noticart2 = false
+                  this.noticart = true
+                  this.cartlength = 1
+                }else{
+                  console.log('entra header else')
+                  window.localStorage.setItem('product', null);
+                  this.noticart2 = true
+                  this.noticart = false
+                  this.cartlength = 0
+                }
       }else{
         try {
           let response = await this.$axios.get('users/me')
@@ -160,7 +182,7 @@
                 this.nombres = me.nombres
                 this.apellidos = me.apellidos
                 this.email = me.email
-                if(window.localStorage.getItem('product') != 'null'){
+                if(localStorage.getItem('product') != 'null'){
                   console.log('entra header if')
                   this.noticart2 = false
                   this.noticart = true
@@ -185,8 +207,7 @@
 
     data: () => ({
       links: [
-        {name:'Cabugy', page:''},
-        {name:'Acerca de Nosotros', page:'abaout'},
+        {name:'¿Como funciona?', page:'abaout'},
         {name:'Carrito', page:'cart'}
       ],
       fav: true,
@@ -213,6 +234,10 @@
           this.menu = false
           this.bmenu = false
         },
+
+        toinicio(){
+          this.$router.push('/')
+        }
   }
 }
 </script>
@@ -229,5 +254,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  body{
+    font-family: Nunito Sans;
   }
 </style>

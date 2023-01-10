@@ -12,7 +12,7 @@
                         rounded="lg"
                         >
                         <v-col v-show= this.cartdetalle>
-                        <h1 class="text-center d-block mt-16">Carrito de compra</h1>
+                        <v-card-text class="text-center d-block mt-16">Carrito de compra</v-card-text>
                         <v-row class="d-flex justify-center">
                         <v-col cols="12" lg="8" sm="12">
                         <v-col class="d-flex justify-center">
@@ -59,11 +59,19 @@
                                     {{this.userprodetalle}}
                                     </v-card-text>
                                 </v-col>
+                                <v-col class="col-12 d-flex">
                                 <v-col class="col-6">
                                     <v-card-title class="col-12 d-flex" style="padding: 2px;">
                                         <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-left">Cantidad:</p></v-card-text>
                                         <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-right">{{this.pro.cantidad}}</p></v-card-text>
                                     </v-card-title>
+                                </v-col>
+                                <v-col class="col-6">
+                                    <v-card-title class="col-12 d-flex" style="padding: 2px;">
+                                        <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-left">Fecha:</p></v-card-text>
+                                        <v-card-text class="col-6" style="padding: 2px;"><p class="text-lg-right">{{this.fecha}}</p></v-card-text>
+                                    </v-card-title>
+                                </v-col>
                                 </v-col>
                                 </v-col>
                                 </v-col>
@@ -103,7 +111,6 @@
                             <v-btn
                             class="mx-2"
                             fab
-                            dark
                             small
                             color="primary"
                             :disabled= "userprocantidad <= 1"
@@ -117,7 +124,6 @@
                             <v-btn
                             class="mx-2"
                             fab
-                            dark
                             small
                             color="primary"
                             :disabled= "userprocantidad >= parseInt(this.pro.cantidad)"
@@ -185,6 +191,7 @@ export default {
             console.log(typeof(this.userprocantidad), this.userprocantidad )
             this.userpropreciounitario = this.pro.punitario
             this.artista = this.pro.artistas[0]
+            this.fecha = this.pro.fecha
             this.imgartista = this.artista.imgartista.url
             this.nombreart = this.artista.nombre
             this.userpro = this.pro.users_permissions_users[0]
@@ -211,7 +218,8 @@ export default {
       pro:[],
       envio: 0,
       rtotal: 0,
-      total: 0
+      total: 0,
+      fecha: ''
     }),
     methods:{
         decimal: function(price){
